@@ -24,8 +24,6 @@ def inject_ga():
             width=0,
         )
         
-# Add to top of your Python file
-st.set_page_config(public_access=True)
 
 # Helper function to calculate metric multiplier
 def calculate_multiplier(achievement, is_signed_mm=False, tcv_achievement=0):
