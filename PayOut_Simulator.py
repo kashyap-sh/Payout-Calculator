@@ -4,6 +4,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 from io import BytesIO
 
+def inject_ga():
+    GA_ID = "G-N8C5DFN8DY"  # Replace with your actual GA ID
+    
+    # Only inject if GA_ID is provided
+    if GA_ID != "google_analytics":
+        st.components.v1.html(
+            f"""
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){{dataLayer.push(arguments);}}
+              gtag('js', new Date());
+              gtag('config', '{GA_ID}');
+            </script>
+            """,
+            height=0,
+            width=0,
+        )
+        
+# Add to top of your Python file
+st.set_page_config(public_access=True)
+
 # Helper function to calculate metric multiplier
 def calculate_multiplier(achievement, is_signed_mm=False, tcv_achievement=0):
     if achievement < 85:
@@ -89,6 +112,10 @@ def calculate_quarterly_bonus(otb, quarter, metrics, apply_qtr_cap=True):
 
 # Streamlit app
 def main():
+    # Inject Google Analytics
+    inject_ga()   
+    
+
     st.set_page_config(page_title="Bonus Payout Calculator", layout="wide")
     st.title("🏆 Quarterly Bonus Payout Calculator")
     st.markdown("Calculate bonus payouts based on policy guidelines with quarterly projections and full year reconciliation.")
